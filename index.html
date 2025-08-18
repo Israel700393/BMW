@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BMW — Conceitual • Preto & Branco</title>
+  <meta name="description" content="Site conceitual não-oficial da marca BMW, em preto e branco. Animações de rolagem, transições de botões e interações ricas com HTML, CSS e JavaScript puro." />
+  <style>
+    :root{
+      --bg:#0a0a0a;
+      --fg:#ffffff;
+      --muted:#bfbfbf;
+      --line:#1f1f1f;
+      --accent:#ffffff; /* mantém monocromático */
+      --radius:20px;
+      --speed:300ms;
+    }
+
+    /* Reset básico */
+    *,*::before,*::after{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0; background:var(--bg); color:var(--fg);
+      font-family:ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica Neue, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      line-height:1.55; letter-spacing:.2px;
+    }
+    img{ max-width:100%; display:block; }
+    a{ color:inherit; text-decoration:none; }
+    button{ font:inherit; color:inherit; }
+
+    /* Barra de progresso de rolagem */
+    .progress{
+      position:fixed; inset:0 0 auto 0; height:3px; background:linear-gradient(90deg, var(--accent), #777);
+      transform-origin:left center; transform:scaleX(0); z-index:9999; box-shadow:0 0 12px rgba(255,255,255,.35);
+    }
+
+    /* Navegação */
+    header{
+      position:sticky; top:0; z-index:50; backdrop-filter:saturate(1.2) blur(8px);
+      background:rgba(10,10,10,.55); border-bottom:1px solid var(--line);
+    }
+    .nav{
+      max-width:1200px; margin:0 auto; padding:14px 20px; display:flex; align-items:center; gap:20px; justify-content:space-between;
+    }
+    .brand{ display:flex; align-items:center; gap:12px; font-weight:700; letter-spacing:1px; }
+    .brand .dot{ width:10px; height:10px; border-radius:50%; background:var(--fg); box-shadow:0 0 14px rgba(255,255,255,.5) inset; }
+    .brand span{ text-transform:uppercase; }
+    .links{ display:flex; gap:18px; align-items:center; }
+    .links a{ position:relative; padding:8px 10px; border-radius:999px; }
+    .links a::after{
+      content:""; position:absolute; left:10px; right:10px; bottom:4px; height:1px; background:var(--fg);
+      transform:scaleX(0); transform-origin:left; transition:transform var(--speed) ease;
+    }
+    .links a:hover::after{ transform:scaleX(1); }
+
+    /* Botão com efeito magnético */
+    .btn{
+      position:relative; display:inline-flex; align-items:center; justify-content:center; gap:10px;
+      padding:14px 22px; border:1px solid var(--fg); border-radius:999px; overflow:hidden;
+      transition:transform var(--speed) ease, var(--speed) ease, color var(--speed) ease;
+      will-change:transform; cursor:pointer; background:transparent;
+    }
+    .btn .shine{
+      position:absolute; inset:-150% -50%; background:radial-gradient(50% 50% at 50% 50%, rgba(255,255,255,.35), rgba(255,255,255,0) 60%);
+      transform:translate(var(--mx,0), var(--my,0)); pointer-events:none; transition:transform 120ms linear;
+    }
+    .btn:hover{ background:var(--fg); color:var(--bg); transform:translateY(-2px); }
+    .btn:active{ transform:translateY(0); }
+
+    /* Hero */
+    .hero{
+      position:relative; min-height:84vh; display:grid; place-items:center; text-align:center; overflow:hidden;
+      border-bottom:1px solid var(--line); 
+    }
+    .hero .halo{
+      position:absolute; width:80vmax; height:80vmax; border-radius:50%;
+      background:radial-gradient(closest-side, rgba(255,255,255,.06), rgba(255,255,255,0));
+      filter:blur(10px); z-index:-1; animation:float 18s ease-in-out infinite;
+    }
+    @keyframes float{ 50%{ transform:translateY(-2.5%) scale(1.03);} }
+
+    .title{
+      font-size:clamp(40px, 6vw, 96px); font-weight:800; letter-spacing:-1.5px;
+      line-height:1.02; margin:0 16px; text-wrap:balance;
+    }
+    .subtitle{ color:var(--muted); margin-top:14px; font-size:clamp(14px, 1.4vw, 18px); }
+    .cta{ margin-top:28px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+
+    /* Seções */
+    section{ max-width:1200px; margin:0 auto; padding:72px 20px; }
+    .section-title{ font-size:clamp(22px, 3.2vw, 36px); margin:0 0 22px; letter-spacing:.5px; }
+    .muted{ color:var(--muted); }
+
+    /* Cards de modelos */
+    .grid{
+      display:grid; grid-template-columns:repeat(12, 1fr); gap:20px;
+    }
+    .card{
+      grid-column:span 4; min-height:260px; border:1px solid var(--line); border-radius:var(--radius);
+      padding:20px; position:relative; overflow:hidden;
+      transition:transform 250ms ease, box-shadow 250ms ease, border-color var(--speed) ease;
+      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,0));
+    }
+    @media (max-width:900px){ .card{ grid-column:span 6; } }
+    @media (max-width:640px){ .card{ grid-column:span 12; } }
+
+    .card:hover{
+      transform:translateY(-4px); box-shadow:0 10px 40px rgba(0,0,0,.45); border-color:#2b2b2b;
+    }
+    .card h3{ margin:0 0 6px; font-size:22px; }
+    .card p{ margin:0 0 18px; color:var(--muted); }
+    .tag{
+      font-size:12px; padding:4px 10px; border:1px solid var(--fg); border-radius:999px; display:inline-block; opacity:.85;
+    }
+    .card .ghost{
+      position:absolute; inset:auto -20% -30% -20%; height:60%;
+      background:radial-gradient(50% 60% at 50% 40%, rgba(255,255,255,.12), rgba(255,255,255,0));
+      filter:blur(24px); pointer-events:none;
+    }
+
+    /* Galeria */
+    .gallery{
+      display:grid; grid-template-columns:repeat(6, 1fr); gap:10px; margin-top:24px;
+    }
+    .ph{
+      aspect-ratio:16/10; border-radius:14px; border:1px dashed var(--line);
+      display:grid; place-items:center; color:#999; font-size:14px;
+      position:relative; overflow:hidden;
+    }
+    .ph::before{
+      content:""; position:absolute; inset:0; background:linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,0));
+      transform:translateY(100%); transition:transform 700ms ease;
+    }
+    .ph:hover::before{ transform:translateY(0%); }
+    @media (max-width:900px){ .gallery{ grid-template-columns:repeat(3, 1fr);} }
+    @media (max-width:640px){ .gallery{ grid-template-columns:repeat(2, 1fr);} }
+
+    /* Texto que revela com rolagem */
+    .reveal{ opacity:0; transform:translateY(18px); filter:blur(3px); transition:opacity 700ms ease, transform 700ms ease, filter 700ms ease; }
+    .reveal.show{ opacity:1; transform:translateY(0); filter:blur(0); }
+
+    /* Linha divisória animada */
+    .divider{ height:1px; background:linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,.35), rgba(255,255,255,0)); margin:50px 0; }
+
+    /* Rodapé */
+    footer{ border-top:1px solid var(--line); padding:32px 20px; color:var(--muted); text-align:center; font-size:14px; }
+
+    /* Acessibilidade: respeitar reduzido de movimento */
+    @media (prefers-reduced-motion: reduce){
+      .reveal{ transition:none; }
+      .btn{ transition:none; }
+      .card{ transition:none; }
+      .hero .halo{ animation:none; }
+    }
+  </style>
+</head>
+<body>
+  <!-- AVISO LEGAL: este é um site conceitual não-oficial para fins educacionais. Sem uso de marcas registradas. -->
+  <div class="progress" aria-hidden="true"></div>
+
+  <header>
+    <nav class="nav" aria-label="Navegação principal">
+      <a class="brand" href="#top" aria-label="Voltar ao topo">
+        <span class="dot" aria-hidden="true"></span>
+        <span>BMW</span>
+      </a>
+      <div class="links">
+        <a href="#modelos">Modelos</a>
+        <a href="#inovacao">Inovação</a>
+        <a href="#galeria">Galeria</a>
+        <a href="#contato">Contato</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="halo" aria-hidden="true"></div>
+      <div>
+        <h1 class="title reveal">Puro preto & branco.<br>Dirija o essencial.</h1>
+        <p class="subtitle reveal">Experiência interativa com animações de rolagem, botões responsivos e um toque minimalista inspirado no design BMW.</p>
+        <div class="cta">
+          <button class="btn" data-magnet>
+            <span>Explorar Modelos</span>
+            <span class="shine" aria-hidden="true"></span>
+          </button>
+          <a class="btn" href="#inovacao">
+            <span>Ver Inovações</span>
+            <span class="shine" aria-hidden="true"></span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="modelos">
+      <h2 class="section-title reveal">Modelos em destaque</h2>
+      <p class="muted reveal">Cards conceituais com microinterações. Passe o mouse para sentir a profundidade.</p>
+      <div class="grid" style="margin-top:24px;">
+        <article class="card reveal">
+          <span class="tag">Série 3</span>
+          <h3>Equilíbrio absoluto</h3>
+          <p>Direção precisa e dinâmica refinada para o dia a dia com alma esportiva.</p>
+          <button class="btn" data-magnet>
+            <span>Configurar</span>
+            <span class="shine" aria-hidden="true"></span>
+          </button>
+          <div class="ghost" aria-hidden="true"></div>
+        </article>
+        <article class="card reveal">
+          <span class="tag">Série 5</span>
+          <h3>Executivo moderno</h3>
+          <p>Tecnologia intuitiva e conforto em uma silhueta elegante e atemporal.</p>
+          <button class="btn" data-magnet>
+            <span>Configurar</span>
+            <span class="shine" aria-hidden="true"></span>
+          </button>
+          <div class="ghost" aria-hidden="true"></div>
+        </article>
+        <article class="card reveal">
+          <span class="tag">i4</span>
+          <h3>Elétrico sem esforço</h3>
+          <p>Torque instantâneo e silêncio absoluto, focado em eficiência e prazer ao dirigir.</p>
+          <button class="btn" data-magnet>
+            <span>Configurar</span>
+            <span class="shine" aria-hidden="true"></span>
+          </button>
+          <div class="ghost" aria-hidden="true"></div>
+        </article>
+      </div>
+      <div class="divider" aria-hidden="true"></div>
+    </section>
+
+    <section id="inovacao">
+      <h2 class="section-title reveal">Inovação em movimento</h2>
+      <div class="grid">
+        <div class="reveal" style="grid-column:span 7;">
+          <p class="muted">Materiais de alta precisão, softwares atualizáveis e direção assistida avançada. Carros de última geração. <em>elegantes e veloz</em>, mantendo a performance.</p>
+     
+          <a class="btn" href="#galeria"><span>Ir para Galeria</span><span class="shine" aria-hidden="true"></span></a>
+        </div>
+        <div class="reveal" style="grid-column:span 5;">
+          <div class="ph">Placeholder de imagem</div>
+        </div>
+      </div>
+      <div class="divider" aria-hidden="true"></div>
+    </section>
+
+    <section id="galeria">
+      <h2 class="section-title reveal">Galeria minimalista</h2>
+      <p class="muted reveal">Veja umas das nossa máquinas em destaque .</p>
+      <div class="gallery">
+        <div class="ph reveal">16:10</div>
+        <div class="ph reveal">16:10</div>
+        <div class="ph reveal">16:10</div>
+        <div class="ph reveal">16:10</div>
+        <div class="ph reveal">16:10</div>
+        <div class="ph reveal">16:10</div>
+      </div>
+      <div class="divider" aria-hidden="true"></div>
+    </section>
+
+    <section id="contato">
+      <h2 class="section-title reveal">Fale conosco</h2>
+      <p class="muted reveal">Este formulário é apenas demonstrativo.</p>
+      <form class="reveal" onsubmit="event.preventDefault(); alert('Mensagem enviada (demo)!');" style="max-width:720px;">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+          <label>Nome<br><input type="text" required placeholder="Seu nome" style="width:100%; padding:14px; background:#0e0e0e; color:var(--fg); border:1px solid var(--line); border-radius:12px;"></label>
+          <label>Email<br><input type="email" required placeholder="voce@email.com" style="width:100%; padding:14px; background:#0e0e0e; color:var(--fg); border:1px solid var(--line); border-radius:12px;"></label>
+        </div>
+        <label style="display:block; margin-top:14px;">Mensagem<br>
+          <textarea required rows="5" placeholder="Como podemos ajudar?" style="width:100%; padding:14px; background:#0e0e0e; color:var(--fg); border:1px solid var(--line); border-radius:12px;"></textarea>
+        </label>
+        <div style="margin-top:14px; display:flex; gap:10px;">
+          <button class="btn" type="submit" data-magnet><span>Enviar</span><span class="shine" aria-hidden="true"></span></button>
+          <button class="btn" type="reset"><span>Limpar</span><span class="shine" aria-hidden="true"></span></button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    Site não-oficial • Apenas para teset • © <span id="year"></span>
+  </footer>
+
+  <script>
+    // Ano no rodapé
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Barra de progresso de rolagem
+    const progress = document.querySelector('.progress');
+    const onScroll = () => {
+      const h = document.documentElement;
+      const ratio = (h.scrollTop) / (h.scrollHeight - h.clientHeight);
+      progress.style.transform = `scaleX(${Math.max(0, Math.min(1, ratio))})`;
+    };
+    document.addEventListener('scroll', onScroll, { passive:true });
+    onScroll();
+
+    // Reveal on scroll via Intersection Observer
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          e.target.classList.add('show');
+          io.unobserve(e.target);
+        }
+      })
+    }, { threshold:.15 });
+    document.querySelectorAll('.reveal').forEach(el=> io.observe(el));
+
+    // Efeito magnético em botões + brilho
+    const magnets = document.querySelectorAll('[data-magnet]');
+    magnets.forEach(btn => {
+      const shine = btn.querySelector('.shine');
+      const strength = 18; // px de atração
+      btn.addEventListener('mousemove', (e)=>{
+        const r = btn.getBoundingClientRect();
+        const mx = e.clientX - (r.left + r.width/2);
+        const my = e.clientY - (r.top + r.height/2);
+        btn.style.transform = `translate(${mx/strength}px, ${my/strength}px)`;
+        if(shine){
+          shine.style.setProperty('--mx', `${mx/2}px`);
+          shine.style.setProperty('--my', `${my/2}px`);
+        }
+      });
+      btn.addEventListener('mouseleave', ()=>{
+        btn.style.transform = 'translate(0,0)';
+        if(shine){ shine.style.setProperty('--mx', `0px`); shine.style.setProperty('--my', `0px`); }
+      });
+    });
+
+    // Parallax leve do título no hero
+    const title = document.querySelector('.title');
+    const subtitle = document.querySelector('.subtitle');
+    let ticking = false;
+    window.addEventListener('scroll', ()=>{
+      if(!ticking){
+        window.requestAnimationFrame(()=>{
+          const y = window.scrollY * 0.15;
+          if(title) title.style.transform = `translateY(${y}px)`;
+          if(subtitle) subtitle.style.transform = `translateY(${y*0.6}px)`;
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive:true });
+
+    // Scroll suave para links de navegação
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        const id = a.getAttribute('href');
+        if(id.length > 1){ e.preventDefault(); document.querySelector(id).scrollIntoView({ behavior:'smooth', block:'start' }); }
+      });
+    });
+  </script>
+</body>
+</html>
