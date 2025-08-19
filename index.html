@@ -20,149 +20,76 @@
     *,*::before,*::after{ box-sizing:border-box; }
     html,body{ height:100%; }
     body{
-      margin:0; 
-      background:var(--bg); 
-      color:var(--fg);
+      margin:0; background:var(--bg); color:var(--fg);
       font-family:ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica Neue, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      line-height:1.55;
-       letter-spacing:.2px;
+      line-height:1.55; letter-spacing:.2px;
     }
-    img{ max-width:100%;
-       display:block; }
-    a{ color:inherit; 
-      text-decoration:none; }
-    button{ font:inherit; 
-      color:inherit; }
+    img{ max-width:100%; display:block; }
+    a{ color:inherit; text-decoration:none; }
+    button{ font:inherit; color:inherit; }
 
     /* Barra de progresso de rolagem */
     .progress{
-      position:fixed;
-       inset:0 0 auto 0; 
-       height:3px; 
-       background:linear-gradient(90deg, var(--accent), #777);
-      transform-origin:left center;
-       transform:scaleX(0);
-        z-index:9999;
-        box-shadow:0 0 12px rgba(255,255,255,.35);
+      position:fixed; inset:0 0 auto 0; height:3px; background:linear-gradient(90deg, var(--accent), #777);
+      transform-origin:left center; transform:scaleX(0); z-index:9999; box-shadow:0 0 12px rgba(255,255,255,.35);
     }
 
     /* Navegação */
     header{
-      position:sticky; 
-      top:0; z-index:50; 
-      backdrop-filter:saturate(1.2) blur(8px);
-      background:rgba(10,10,10,.55);
-       border-bottom:1px solid var(--line);
+      position:sticky; top:0; z-index:50; backdrop-filter:saturate(1.2) blur(8px);
+      background:rgba(10,10,10,.55); border-bottom:1px solid var(--line);
     }
     .nav{
-      max-width:1200px;
-       margin:0 auto; 
-       padding:14px 20px;
-        display:flex; 
-        align-items:center; 
-        gap:20px;
-         justify-content:space-between;
+      max-width:1200px; margin:0 auto; padding:14px 20px; display:flex; align-items:center; gap:20px; justify-content:space-between;
     }
-    .brand{ display:flex; 
-      align-items:center;
-       gap:12px; font-weight:700; 
-       letter-spacing:1px; }
-    .brand .dot{
-       width:10px;
-       height:10px; 
-       border-radius:50%; 
-       background:var(--fg); 
-       box-shadow:0 0 14px rgba(255,255,255,.5) inset; }
-    .brand span{ 
-      text-transform:uppercase; }
-    .links{ display:flex; gap:18px;
-       align-items:center; }
-    .links a{ position:relative; 
-      padding:8px 10px;
-       border-radius:999px; }
+    .brand{ display:flex; align-items:center; gap:12px; font-weight:700; letter-spacing:1px; }
+    .brand .dot{ width:10px; height:10px; border-radius:50%; background:var(--fg); box-shadow:0 0 14px rgba(255,255,255,.5) inset; }
+    .brand span{ text-transform:uppercase; }
+    .links{ display:flex; gap:18px; align-items:center; }
+    .links a{ position:relative; padding:8px 10px; border-radius:999px; }
     .links a::after{
-      content:""; position:absolute;
-       left:10px; right:10px;
-        bottom:4px; 
-       height:1px; background:var(--fg);
-      transform:scaleX(0); transform-origin:left;
-       transition:transform var(--speed) ease;
+      content:""; position:absolute; left:10px; right:10px; bottom:4px; height:1px; background:var(--fg);
+      transform:scaleX(0); transform-origin:left; transition:transform var(--speed) ease;
     }
     .links a:hover::after{ transform:scaleX(1); }
 
     /* Botão com efeito magnético */
     .btn{
-      position:relative;
-       display:inline-flex; 
-       align-items:center;
-        justify-content:center; 
-        gap:10px;
-      padding:14px 22px; 
-      border:1px solid var(--fg); 
-      border-radius:999px;
-       overflow:hidden;
+      position:relative; display:inline-flex; align-items:center; justify-content:center; gap:10px;
+      padding:14px 22px; border:1px solid var(--fg); border-radius:999px; overflow:hidden;
       transition:transform var(--speed) ease, var(--speed) ease, color var(--speed) ease;
-      will-change:transform; cursor:pointer;
-       background:transparent;
+      will-change:transform; cursor:pointer; background:transparent;
     }
     .btn .shine{
-      position:absolute;
-       inset:-150% -50%;
-        background:radial-gradient(50% 50% at 50% 50%, rgba(255,255,255,.35), rgba(255,255,255,0) 60%);
-      transform:translate(var(--mx,0), var(--my,0)); 
-      pointer-events:none;
-       transition:transform 120ms linear;
+      position:absolute; inset:-150% -50%; background:radial-gradient(50% 50% at 50% 50%, rgba(255,255,255,.35), rgba(255,255,255,0) 60%);
+      transform:translate(var(--mx,0), var(--my,0)); pointer-events:none; transition:transform 120ms linear;
     }
-    .btn:hover{ background:var(--fg);
-       color:var(--bg); transform:translateY(-2px);
-       }
+    .btn:hover{ background:var(--fg); color:var(--bg); transform:translateY(-2px); }
     .btn:active{ transform:translateY(0); }
 
     /* Hero */
     .hero{
-      position:relative; 
-      min-height:84vh;
-       display:grid;
-        place-items:center; 
-        text-align:center;
-         overflow:hidden;
+      position:relative; min-height:84vh; display:grid; place-items:center; text-align:center; overflow:hidden;
       border-bottom:1px solid var(--line); 
     }
     .hero .halo{
-      position:absolute;
-       width:80vmax; 
-       height:80vmax;
-        border-radius:50%;
-      background:radial-gradient(closest-side, rgba(255,255,255,.06), rgba(255,255,255,0.4));
-      background-image: url('img/logo.png');
+      position:absolute; width:80vmax; height:80vmax; border-radius:50%;
+      background:radial-gradient(closest-side, rgba(255,255,255,.06), rgba(255,255,255,0));
       filter:blur(10px); z-index:-1; animation:float 18s ease-in-out infinite;
     }
     @keyframes float{ 50%{ transform:translateY(-2.5%) scale(1.03);} }
 
     .title{
-      font-size:clamp(40px, 6vw, 96px); 
-      font-weight:800; letter-spacing:-1.5px;
-      line-height:1.02; margin:0 16px;
-       text-wrap:balance;
+      font-size:clamp(40px, 6vw, 96px); font-weight:800; letter-spacing:-1.5px;
+      line-height:1.02; margin:0 16px; text-wrap:balance;
     }
-    .subtitle{ color:var(--muted);
-       margin-top:14px; 
-       font-size:clamp(14px, 1.4vw, 18px); }
-
-    .cta{ margin-top:28px; display:flex;
-       gap:12px; justify-content:center; 
-       flex-wrap:wrap; }
+    .subtitle{ color:var(--muted); margin-top:14px; font-size:clamp(14px, 1.4vw, 18px); }
+    .cta{ margin-top:28px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
 
     /* Seções */
-    section{ max-width:1200px; 
-      margin:0 auto; 
-      padding:72px 20px; }
-
-    .section-title{ font-size:clamp(22px, 3.2vw, 36px);
-       margin:0 0 22px;
-        letter-spacing:.5px; }
+    section{ max-width:1200px; margin:0 auto; padding:72px 20px; }
+    .section-title{ font-size:clamp(22px, 3.2vw, 36px); margin:0 0 22px; letter-spacing:.5px; }
     .muted{ color:var(--muted); }
-    
 
     /* Cards de modelos */
     .grid{
@@ -187,16 +114,13 @@
     }
     .card .ghost{
       position:absolute; inset:auto -20% -30% -20%; height:60%;
-      background:radial-gradient(50% 60% at 50% 40%, rgba(255, 255, 255, 0.521), rgba(255,255,255,0));
+      background:radial-gradient(50% 60% at 50% 40%, rgba(255,255,255,.12), rgba(255,255,255,0));
       filter:blur(24px); pointer-events:none;
     }
 
     /* Galeria */
     .gallery{
-      display:grid; 
-      grid-template-columns:repeat(6, 1fr);
-       gap:10px;
-        margin-top:24px;
+      display:grid; grid-template-columns:repeat(6, 1fr); gap:10px; margin-top:24px;
     }
     .ph{
       aspect-ratio:16/10; border-radius:14px; border:1px dashed var(--line);
@@ -253,8 +177,8 @@
     <section class="hero">
       <div class="halo" aria-hidden="true"></div>
       <div>
-        <h1 class="title reveal">BMW.<br>Dirija o essencial.</h1>
-        <p class="subtitle reveal">Experiência interativa, no design BMW.</p>
+        <h1 class="title reveal">Puro preto & branco.<br>Dirija o essencial.</h1>
+        <p class="subtitle reveal">Experiência interativa com animações de rolagem, botões responsivos e um toque minimalista inspirado no design BMW.</p>
         <div class="cta">
           <button class="btn" data-magnet>
             <span>Explorar Modelos</span>
@@ -274,7 +198,6 @@
       <div class="grid" style="margin-top:24px;">
         <article class="card reveal">
           <span class="tag">Série 3</span>
-          <img src="img/320i.png">
           <h3>Equilíbrio absoluto</h3>
           <p>Direção precisa e dinâmica refinada para o dia a dia com alma esportiva.</p>
           <button class="btn" data-magnet>
@@ -285,7 +208,6 @@
         </article>
         <article class="card reveal">
           <span class="tag">Série 5</span>
-          <img src="img/m4.png">
           <h3>Executivo moderno</h3>
           <p>Tecnologia intuitiva e conforto em uma silhueta elegante e atemporal.</p>
           <button class="btn" data-magnet>
@@ -295,8 +217,7 @@
           <div class="ghost" aria-hidden="true"></div>
         </article>
         <article class="card reveal">
-          <span class="tag">i8</span>
-          <img src="img/i8.png"> 
+          <span class="tag">i4</span>
           <h3>Elétrico sem esforço</h3>
           <p>Torque instantâneo e silêncio absoluto, focado em eficiência e prazer ao dirigir.</p>
           <button class="btn" data-magnet>
@@ -318,7 +239,7 @@
           <a class="btn" href="#galeria"><span>Ir para Galeria</span><span class="shine" aria-hidden="true"></span></a>
         </div>
         <div class="reveal" style="grid-column:span 5;">
-          <div class="ph"><img src="img/bmw-gif.jpg"></div>
+          <div class="ph">Placeholder de imagem</div>
         </div>
       </div>
       <div class="divider" aria-hidden="true"></div>
@@ -328,12 +249,12 @@
       <h2 class="section-title reveal">Galeria minimalista</h2>
       <p class="muted reveal">Veja umas das nossa máquinas em destaque .</p>
       <div class="gallery">
-        <div class="ph reveal"><img src="img/bm1.png"></div>
-        <div class="ph reveal"><img src="img/i8.png"></div>
-        <div class="ph reveal"><img src="img/m4.png"></div>
-        <div class="ph reveal"><img src="img/ix.png"></div>
-        <div class="ph reveal"><img src="img/x7.png"></div>
-        <div class="ph reveal"><img src="img/320i.png"></div>
+        <div class="ph reveal">16:10</div>
+        <div class="ph reveal">16:10</div>
+        <div class="ph reveal">16:10</div>
+        <div class="ph reveal">16:10</div>
+        <div class="ph reveal">16:10</div>
+        <div class="ph reveal">16:10</div>
       </div>
       <div class="divider" aria-hidden="true"></div>
     </section>
@@ -433,4 +354,3 @@
   </script>
 </body>
 </html>
-
